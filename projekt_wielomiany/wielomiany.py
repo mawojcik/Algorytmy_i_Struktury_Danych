@@ -114,6 +114,6 @@ w1 = Wielomian([0, -1, 7, -1])
 w2 = Wielomian([2, 4.4, 1, 2])
 w3 = w1*w2
 
-print(w1.horner(-3))
-print(w3.horner(5.2))
-print(w2)
+print("W1(-3) = ", w1.horner(-3))
+print("W3(-5.2) = ", w3.horner(5.2))
+print("W(x) = ", w2)
