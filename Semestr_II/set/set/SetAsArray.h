@@ -20,16 +20,11 @@ public:
     void Display();
 
     // friend- funkcja uzyska prawo dostepu do prywatnych elementów danej klasy.
-    friend SetAsArray operator+(
-        SetAsArray const &, SetAsArray const &);
-    friend SetAsArray operator-(
-        SetAsArray const &, SetAsArray const &);
-    friend SetAsArray operator*(
-        SetAsArray const &, SetAsArray const &);
-    friend bool operator==(
-        SetAsArray const &, SetAsArray const &);
-    friend bool operator<=(
-        SetAsArray const &, SetAsArray const &);
+    friend SetAsArray operator+(SetAsArray const &, SetAsArray const &);
+    friend SetAsArray operator-(SetAsArray const &, SetAsArray const &);
+    friend SetAsArray operator*(SetAsArray const &, SetAsArray const &);
+    friend bool operator==(SetAsArray const &, SetAsArray const &);
+    friend bool operator<=(SetAsArray const &, SetAsArray const &);
     // void Accept (Visitor&) const{};
     // o metodzie Accept powiemy na następnych zajęciach
 };
