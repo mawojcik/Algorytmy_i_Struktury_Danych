@@ -89,7 +89,7 @@ void test(bool IsDirected) {
 //---------------------------------------
 
 
-    if(1) {
+    if(0) {
         std::cout << "\n\n\n\n\n\n\n\n"
                      "Iterator:"
                      "\n\n";
@@ -148,11 +148,8 @@ void test(bool IsDirected) {
 //---------------------------------------
 
 
-    if (0) {
-        //dfs grafu skierowanego
-        if (IsDirected)
-        {
-            GraphAsMatrix *graph1 = new GraphAsMatrix(10, true);
+    if (1) {
+            GraphAsMatrix *graph1 = new GraphAsMatrix(10, IsDirected);
             graph1->AddEdge(0, 1);
             graph1->AddEdge(1, 2);
             graph1->AddEdge(2, 3);
@@ -164,27 +161,7 @@ void test(bool IsDirected) {
             graph1->AddEdge(6, 8);
             graph1->AddEdge(8, 6);
             graph1->AddEdge(0, 8);
-            graph1->DFS(graph1->SelectVertex(3));
-        }
-
-
-        // DFS grafu nieskierowanego
-        if (!IsDirected)
-        {
-            GraphAsMatrix *graph2 = new GraphAsMatrix(10, false);
-            graph2->AddEdge(0, 1);
-            graph2->AddEdge(1, 2);
-            graph2->AddEdge(2, 3);
-            graph2->AddEdge(3, 4);
-            graph2->AddEdge(3, 7);
-            graph2->AddEdge(4, 5);
-            graph2->AddEdge(5, 9);
-            graph2->AddEdge(9, 9);
-            graph2->AddEdge(6, 8);
-            graph2->AddEdge(8, 6);
-            graph2->AddEdge(0, 8);
-            graph2->DFS(graph2->SelectVertex(3));
-        }
+            graph1->DFS(graph1->SelectVertex(0));
     }
 
 }

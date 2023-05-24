@@ -112,7 +112,7 @@ class GraphAsMatrix
         }
         EmanEdgesIter(GraphAsMatrix &owner, int v) : owner(owner)
         {
-            row = v - 1;
+            row = v;
             col = -1;
             this->owner = owner;
         }
@@ -153,7 +153,7 @@ class GraphAsMatrix
         InciEdgesIter(GraphAsMatrix &owner, int v) : owner(owner)
         {
             row = -1;
-            col = v - 1;
+            col = v;
             this->owner = owner;
         }
         bool IsDone()
@@ -233,7 +233,7 @@ public:
         numberOfVertices = n;
         for (int i = 0; i < n; i++)
         {
-            Vertex *v = new Vertex(i + 1);
+            Vertex *v = new Vertex(i);
             vertices.push_back(v);
         }
         createAdjacencyMatrix(n);
@@ -257,9 +257,11 @@ public:
     bool IsEdge(int u, int v)
     {
         bool ifEdgeExists = false;
-        if ((u > numberOfVertices) || (v > numberOfVertices) || (u == v)) {
-            return false;
-        } else if (adjacencyMatrix[u - 1][v - 1] != NULL) {
+        if ((u > numberOfVertices) || (v > numberOfVertices) || (u == v))
+        {
+        }
+        else if (adjacencyMatrix[u][v] != NULL)
+        {
             ifEdgeExists = true;
         }
         return ifEdgeExists;
@@ -279,12 +281,12 @@ public:
     {
         if (!IsEdge(u, v) && u != v)
         {
-            Edge *edge = new Edge(vertices[u - 1], vertices[v - 1]);
-            adjacencyMatrix[u - 1][v - 1] = edge;
+            Edge *edge = new Edge(vertices[u], vertices[v]);
+            adjacencyMatrix[u][v] = edge;
             numberOfEdges++;
             if (!isDirected)
             {
-                adjacencyMatrix[v - 1][u - 1] = edge;
+                adjacencyMatrix[v][u] = edge;
             }
         }
     }
@@ -292,12 +294,12 @@ public:
     Edge *SelectEdge(int u, int v)
     {
         if (IsEdge(u, v))
-            return adjacencyMatrix[u - 1][v - 1];
+            return adjacencyMatrix[u][v];
     }
 
     Vertex *SelectVertex(int v)
     {
-        return vertices[v - 1];
+        return vertices[v];
     }
 
     Iterator<Vertex> &VerticesIter()
