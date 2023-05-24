@@ -6,7 +6,6 @@
 
 void EdgeTest(GraphAsMatrix graph, int u, int v)
 {
-
     std::cout << "Test for edge (" << u << "," << v << ")" << std::endl;
 
     if(!graph.IsEdge(u, v)) {
@@ -32,7 +31,7 @@ void EdgeTest(GraphAsMatrix graph, int u, int v)
               << std::endl;
 }
 
-void test(bool IsDirected, bool iterator) {
+void test(bool IsDirected) {
     if (IsDirected)
         std::cout << "\nTest for directed graph" << std::endl
                   << std::endl;
@@ -85,7 +84,7 @@ void test(bool IsDirected, bool iterator) {
 //    EdgeTest(graph, 9, 9);
 
 
-    if(iterator) {
+    if(1) {
         std::cout << "\n\n\n\n\n\n\n\n"
                      "Iterator:"
                      "\n\n";
@@ -140,7 +139,6 @@ void test(bool IsDirected, bool iterator) {
 }
 
 int main() {
-    bool iterator = true;
-    test(true, iterator);
-    test(false, iterator);
+    test(true);
+    test(false);
 }

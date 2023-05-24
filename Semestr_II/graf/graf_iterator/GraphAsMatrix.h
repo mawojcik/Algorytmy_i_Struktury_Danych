@@ -214,14 +214,6 @@ public:
     bool IsEdge(int u, int v)
     {
         bool ifEdgeExists = false;
-//        if (u && v > numberOfVertices)
-//        {
-//        }
-//        else if (adjacencyMatrix[u - 1][v - 1] != NULL)
-//        {
-//            ifEdgeExists = true;
-//        }
-//        return ifEdgeExists;
         if ((u > numberOfVertices) || (v > numberOfVertices) || (u == v)) {
             return false;
         } else if (adjacencyMatrix[u - 1][v - 1] != NULL) {
