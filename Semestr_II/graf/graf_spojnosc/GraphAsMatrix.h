@@ -186,10 +186,10 @@ public:
             CountingVisitor visitor;
             std::vector<bool> visited(vertices.size(), false);
             DFS_visitor(&visitor, v, visited);
-            std::cout << visitor.GetNumber() << std::endl;
-            std::cout << "visitor counter " << visitor.GetNumber()+1 << std::endl;
-            std::cout << "vertices size " << vertices.size() << std::endl;
-            return (visitor.GetNumber()+1 == vertices.size());
+//            std::cout << std::endl;
+//            std::cout << "visitor counter " << visitor.GetNumber() << std::endl;
+//            std::cout << "vertices size " << vertices.size() << std::endl;
+            return (visitor.GetNumber() == vertices.size());
         }
         if (IsDirected())
         {
@@ -201,7 +201,7 @@ public:
                 CountingVisitor visitor;
                 std::vector<bool> visited(vertices.size(), false);
                 DFS_visitor(&visitor, v, visited);
-                if (visitor.GetNumber()+1 < min)
+                if (visitor.GetNumber() < min)
                 {
                     return false;
                 }
@@ -210,86 +210,45 @@ public:
         }
     }
 
-    bool IsStronglyConnected()
-    {
-        if (!IsDirected())
-        {
-            int arr[numberOfVertices];
-            for(int i = 0; i < numberOfVertices; i++) {
-                Vertex *v = vertices[i];
-                CountingVisitor visitor;
-                std::vector<bool> visited(vertices.size(), false);
-                DFS_visitor(&visitor, v, visited);
-//                std::cout << visitor.GetNumber() << std::endl;
-                arr[i] = visitor.GetNumber();
-                if ((i > 0) && (arr[i] != arr[i-1])) {
-                    return false;
-                }
-//                std::cout << "visitor counter " << visitor.GetNumber() << std::endl;
-//                std::cout << "vertices size " << vertices.size() << std::endl;
-            }
-
-//            return (visitor.GetNumber()+1 == vertices.size());
-            return true;
-        }
-        if (IsDirected())
-        {
-            Vertex *v;
-            int min = vertices.size();
-            for (int i = 0; i < vertices.size(); i++)
-            {
-                v = vertices[i];
-                CountingVisitor visitor;
-                std::vector<bool> visited(vertices.size(), false);
-                DFS_visitor(&visitor, v, visited);
-                if (visitor.GetNumber()+1 < min)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-
-    void DFS(Vertex *v, bool StrongConnection)
+    void DFS(Vertex *v)
     {
         CountingVisitor visitor;
         std::vector<bool> visited(vertices.size(), false);
         DFS_visitor(&visitor, v, visited);
         AllVerticesIter iter(*this);
-        if (!StrongConnection) {
-            while (!iter.IsDone())
+        while (!iter.IsDone())
+        {
+            ++iter;
+            Vertex *x = &(*iter);
+            if (!iter.IsDone())
             {
-                Vertex *x = &(*iter);
-                if (!iter.IsDone())
+                if (visited[x->Number()] == false)
                 {
-                    if (visited[x->Number()] == false)
-                    {
-                        DFS_visitor(&visitor, &(*iter), visited);
-                    }
+                    DFS_visitor(&visitor, &(*iter), visited);
                 }
-                ++iter;
             }
         }
-
-//        std::cout << "\nNumber of vertices counted: " << visitor.GetNumber() << std::endl;
+        std::cout << "\nNumber of vertices counted: " << visitor.GetNumber() << std::endl;
     }
 
     void DFS_visitor(CountingVisitor *visitor, Vertex *v, std::vector<bool> &visited)
     {
+        int row = v->Number();
+        int last_col = adjacencyMatrix.size()-1;
         visitor->Visit(*v);
         visited[v->Number()] = true;
-//        std::cout << v->Number() << " ";
-        EmanEdgesIter emanIter(*this, v->Number());
+        EmanEdgesIter emanIter(*this, row);
         while (!emanIter.IsDone())
         {
             ++emanIter;
-            if (!emanIter.IsDone())
+            if (!emanIter.IsDone() || (emanIter.IsDone() && adjacencyMatrix[last_col][row] != nullptr))
             {
                 Edge vEdge = *emanIter;
                 Vertex *u = vEdge.Mate(v);
                 if (visited[u->Number()] == false)
+                {
                     DFS_visitor(visitor, u, visited);
+                }
             }
         }
     }
@@ -332,7 +291,7 @@ public:
     bool IsEdge(int u, int v)
     {
         bool ifEdgeExists = false;
-        if ((u > numberOfVertices) || (v > numberOfVertices) || (u == v))
+        if (u && v > numberOfVertices)
         {
         }
         else if (adjacencyMatrix[u][v] != NULL)
@@ -354,7 +313,7 @@ public:
 
     void AddEdge(int u, int v)
     {
-        if (!IsEdge(u, v) && u != v)
+        if (!IsEdge(u, v))
         {
             Edge *edge = new Edge(vertices[u], vertices[v]);
             adjacencyMatrix[u][v] = edge;
