@@ -185,6 +185,8 @@ public:
             std::vector<bool> visited(vertices.size(), false);
             std::vector<int> parent(vertices.size(), -1);
             DFS_Spanning_Tree_1(v, visited, parent);
+        } else {
+            std::cout << "Graf nie jest spojny" << std::endl;
         }
     }
 
@@ -204,7 +206,8 @@ public:
                 if (visited[u->Number()] == false)
                 {
                     parent[u->Number()] = v->Number();
-                    std::cout<<parent[u->Number()]<<std::endl;
+//                    std::cout<<parent[u->Number()]<<std::endl;
+                    std::cout<<"parent of " << u->Number() << ": " << parent[u->Number()]<<std::endl;
                     DFS_Spanning_Tree_1(u, visited, parent);
                 }
             }

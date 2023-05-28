@@ -8,6 +8,10 @@ void EdgeTest(GraphAsMatrix graph, int u, int v)
 {
     std::cout << "Test for edge (" << u << "," << v << ")" << std::endl;
 
+    if(!graph.IsEdge(u, v)) {
+        std::cout << "There is no such edge!" << std::endl;
+        return;
+    }
     Edge *e = graph.SelectEdge(u, v);
 
     // Wypisz V0 dla e
@@ -27,173 +31,208 @@ void EdgeTest(GraphAsMatrix graph, int u, int v)
               << std::endl;
 }
 
-void test(bool IsDirected)
-{
+void test(bool IsDirected) {
     if (IsDirected)
-        std::cout << "Test for directed graph" << std::endl
+        std::cout << "\nGraf skierowany" << std::endl
                   << std::endl;
     else
-        std::cout << "Test for undirected graph" << std::endl
+        std::cout << "\n\n\n\n\n\n\nGraf NIE skierowany" << std::endl
                   << std::endl;
 
-    // Utwórz graf złożony z 10 wierzchołków
-    GraphAsMatrix graph(10, IsDirected);
 
-    // Wypisz, ile jest wierzchołków
-    std::cout << "Number of vertices: " << graph.NumberOfVertices() << std::endl;
+//---------------------------------------
+//                zad_1
+//---------------------------------------
+    if (1){
+        // Utwórz graf złożony z 10 wierzchołków
+        GraphAsMatrix graph(10, IsDirected);
 
-    // Wypisz, ile jest krawędzi
-    std::cout << "Number of edges: " << graph.NumberOfEdges() << std::endl;
+        // Wypisz, ile jest wierzchołków
+        std::cout << "Number of vertices: " << graph.NumberOfVertices() << std::endl;
 
-    Vertex *v = graph.SelectVertex(2);
+        // Wypisz, ile jest krawędzi
+        std::cout << "Number of edges: " << graph.NumberOfEdges() << std::endl;
 
-    // Wypisz unikalny numer v
-    std::cout << "V number: " << v->Number() << std::endl;
+        Vertex *v = graph.SelectVertex(2);
 
-    // Nadaj v wagę unikalnyNumer*uniklanyNumer
-    // Wypisz wagę v
-    v->weight = v->Number() * v->Number();
-    std::cout << "V weight: " << v->weight << std::endl;
+        // Wypisz unikalny numer v
+        std::cout << "V number: " << v->Number() << std::endl;
 
-    graph.AddEdge(1, 2);
-    graph.AddEdge(1, 2);
-    graph.AddEdge(2, 3);
-    graph.AddEdge(3, 4);
-    graph.AddEdge(9, 9);
+        // Nadaj v wagę unikalnyNumer*uniklanyNumer
+        // Wypisz wagę v
+        v->weight = v->Number() * v->Number();
+        std::cout << "V weight: " << v->weight << std::endl;
 
-    // Wypisz, ile jest wierzchołków
-    std::cout << "Number of vertices: " << graph.NumberOfVertices() << std::endl;
+        graph.AddEdge(1, 2);
+        graph.AddEdge(1, 2);
+        graph.AddEdge(2, 3);
+        graph.AddEdge(3, 4);
+        graph.AddEdge(9, 9);
 
-    // Wypisz, ile jest krawędzi
-    std::cout << "Number of edges: " << graph.NumberOfEdges() << std::endl;
+        // Wypisz, ile jest wierzchołków
+        std::cout << "Number of vertices: " << graph.NumberOfVertices() << std::endl;
 
-    // Wypisz, czy istnieje krawędź (1,1)
-    // Wypisz, czy istnieje krawędź (1,2)
-    // Wypisz, czy istnieje krawędź (2,1)
-    std::cout << "If edge (1,1) exists: " << graph.IsEdge(1, 1) << std::endl;
-    std::cout << "If edge (1,2) exists: " << graph.IsEdge(1, 2) << std::endl;
-    std::cout << "If edge (2,1) exists: " << graph.IsEdge(2, 1) << std::endl
-              << std::endl;
+        // Wypisz, ile jest krawędzi
+        std::cout << "Number of edges: " << graph.NumberOfEdges() << std::endl;
 
-    EdgeTest(graph, 1, 2);
-    EdgeTest(graph, 2, 3);
-    EdgeTest(graph, 3, 4);
-    EdgeTest(graph, 9, 9);
+        // Wypisz, czy istnieje krawędź (1,1)
+        // Wypisz, czy istnieje krawędź (1,2)
+        // Wypisz, czy istnieje krawędź (2,1)
+        std::cout << "If edge (1,1) exists: " << std::boolalpha << graph.IsEdge(1, 1) << std::endl;
+        std::cout << "If edge (1,2) exists: " << std::boolalpha << graph.IsEdge(1, 2) << std::endl;
+        std::cout << "If edge (2,1) exists: " << std::boolalpha << graph.IsEdge(2, 1) << std::endl
+                  << std::endl;
 
-    // Wypisz wszystkie wierzchołki korzystając z iteratora po wierzchołkach (ich unikalny numer i wagę)
-    std::cout << "Vertex iterator test: " << std::endl;
-    Iterator<Vertex> &vIter = graph.VerticesIter();
-    for (vIter; !vIter.IsDone(); ++vIter)
-    {
-        Vertex e = *vIter;
-        std::cout << "Vertex number: " << e.Number() << " Vertex weight: " << e.weight << std::endl;
+        EdgeTest(graph, 1, 2);
+        //    EdgeTest(graph, 2, 3);
+        //    EdgeTest(graph, 3, 4);
+        //    EdgeTest(graph, 9, 9);
+
+
+//---------------------------------------
+//                ITERATOR
+//---------------------------------------
+
+
+        if(1) {
+            std::cout << "\n\n\n\n\n\n\n\n"
+                         "Iterator:"
+                         "\n\n";
+
+            // Wypisz wszystkie wierzchołki korzystając z iteratora po wierzchołkach (ich unikalny numer i wagę)
+            std::cout<<"Vertex iterator test: \n"<<std::endl;
+            Iterator<Vertex> &vIter = graph.VerticesIter();
+            for (vIter; !vIter.IsDone(); ++vIter)
+            {
+                Vertex e = *vIter;
+                std::cout << "Vertex number: " << e.Number() << "  weight: " << e.weight << std::endl;
+            }
+            std::cout << std::endl;
+
+            graph.AddEdge(3, 5);
+            graph.AddEdge(8, 3);
+            graph.AddEdge(5, 2);
+
+            // Wypisz wszystkie krawędzie korzystając z odpowiedniego iteratora
+            // to znaczy, wypisz pierwszy i drugi wierzchołek krawędzi – v0 i v1)
+            std::cout<<"Edge iterator test: \n "<<std::endl;
+            Iterator<Edge> &eIter = graph.EdgesIter();
+            for (eIter; !eIter.IsDone(); ++eIter)
+            {
+                Edge e = *eIter;
+                std::cout << e.V0()->Number() << " --- " << e.V1()->Number() << std::endl;
+            }
+            std::cout << std::endl;
+
+            // Wypisz wszystkie krawędzie wychodzące z wierzchołka o numerze 3
+            // korzystając z odpowiedniego iteratora (to znaczy, wypisz pierwszy i drugi wierzchołek krawędzi – v0 i v1)
+            std::cout<<"EmanIterator test from Vertex 3: \n"<<std::endl;
+            Iterator<Edge> &emIter = graph.EmanatingEdgesIter(3);
+            for (emIter; !emIter.IsDone(); ++emIter)
+            {
+                Edge e = *emIter;
+                std::cout << e.V0()->Number() << " --- " << e.V1()->Number() << std::endl;
+            }
+            std::cout << std::endl;
+
+            // Wypisz wszystkie krawędzie dochodzące do wierzchołka o numerze 2, korzystając z odpowiedniego iteratora
+            //( to znaczy, wypisz pierwszy i drugi wierzchołek krawędzi – v0 i v1)
+            std::cout<<"InciIterator test to Vertex 2:\n"<<std::endl;
+            Iterator<Edge> &inIter = graph.IncidentEdgesIter(2);
+            for (inIter; !inIter.IsDone(); ++inIter)
+            {
+                Edge e = *inIter;
+                std::cout <<  e.V0()->Number() << " --- " << e.V1()->Number() << std::endl;
+            }
+            std::cout << std::endl;
+        }
+
     }
-    std::cout << std::endl;
+//---------------------------------------
+//                 DFS
+//---------------------------------------
 
-    graph.AddEdge(3, 5);
-    graph.AddEdge(8, 3);
-    graph.AddEdge(5, 2);
 
-    // Wypisz wszystkie krawędzie korzystając z odpowiedniego iteratora
-    // to znaczy, wypisz pierwszy i drugi wierzchołek krawędzi – v0 i v1)
-    std::cout << "Edge iterator test: " << std::endl;
-    Iterator<Edge> &eIter = graph.EdgesIter();
-    for (eIter; !eIter.IsDone(); ++eIter)
-    {
-        Edge e = *eIter;
-        std::cout << "Edge V0: " << e.V0()->Number() << " Edge V1: " << e.V1()->Number() << std::endl;
-    }
-    std::cout << std::endl;
-
-    // Wypisz wszystkie krawędzie wychodzące z wierzchołka o numerze 3
-    // korzystając z odpowiedniego iteratora (to znaczy, wypisz pierwszy i drugi wierzchołek krawędzi – v0 i v1)
-    std::cout << "EmanIterator test: " << std::endl;
-    Iterator<Edge> &emIter = graph.EmanatingEdgesIter(3);
-    for (emIter; !emIter.IsDone(); ++emIter)
-    {
-        Edge e = *emIter;
-        std::cout << "Edge V0: " << e.V0()->Number() << " Edge V1: " << e.V1()->Number() << std::endl;
-    }
-    std::cout << std::endl;
-
-    // Wypisz wszystkie krawędzie dochodzące do wierzchołka o numerze 2, korzystając z odpowiedniego iteratora
-    //( to znaczy, wypisz pierwszy i drugi wierzchołek krawędzi – v0 i v1)
-    std::cout << "InciIterator test:" << std::endl;
-    Iterator<Edge> &inIter = graph.IncidentEdgesIter(2);
-    for (inIter; !inIter.IsDone(); ++inIter)
-    {
-        Edge e = *inIter;
-        std::cout << "Edge V0: " << e.V0()->Number() << " Edge V1: " << e.V1()->Number() << std::endl;
-    }
-    std::cout << std::endl;
-
-    // DFS grafu nieskierowanego
-    if (!IsDirected)
-    {
-        GraphAsMatrix *graph2 = new GraphAsMatrix(10, false);
-        graph2->AddEdge(0, 1);
-        graph2->AddEdge(1, 2);
-        graph2->AddEdge(2, 3);
-        graph2->AddEdge(3, 4);
-        graph2->AddEdge(3, 7);
-        graph2->AddEdge(4, 5);
-        graph2->AddEdge(5, 9);
-        graph2->AddEdge(9, 9);
-        graph2->AddEdge(6, 8);
-        graph2->AddEdge(8, 6);
-        // spojnosc testy
-        std::cout << "graf jest spojny=" << graph2->IsConnected() << std::endl;
-        graph2->AddEdge(0, 8);
-        graph2->DFS(graph2->SelectVertex(0));
-        std::cout << "graf jest spojny=" << graph2->IsConnected() << std::endl;
-    }
-
-    // dfs grafu skierowanego
-    if (IsDirected)
-    {
-        GraphAsMatrix *graph2 = new GraphAsMatrix(10, true);
-        graph2->AddEdge(0, 1);
-        graph2->AddEdge(1, 2);
-        graph2->AddEdge(2, 3);
-        graph2->AddEdge(3, 4);
-        graph2->AddEdge(3, 7);
-        graph2->AddEdge(4, 5);
-        graph2->AddEdge(5, 9);
-        graph2->AddEdge(9, 9);
-        graph2->AddEdge(6, 8);
-        graph2->AddEdge(8, 6);
-        graph2->AddEdge(0, 8);
-        graph2->DFS(graph2->SelectVertex(0));
-        graph2->AddEdge(6, 0);
-        graph2->AddEdge(9, 0);
-        // spojnosc testy
-        std::cout << "graf jest spojny=" << graph2->IsConnected() << std::endl;
-        graph2->AddEdge(7, 0);
-        std::cout << "graf jest spojny=" << graph2->IsConnected() << std::endl;
+    if (0) {
+        GraphAsMatrix *graphDFS = new GraphAsMatrix(10, IsDirected);
+        graphDFS->AddEdge(0, 1);
+        graphDFS->AddEdge(1, 2);
+        graphDFS->AddEdge(2, 3);
+        graphDFS->AddEdge(3, 4);
+        graphDFS->AddEdge(3, 7);
+        graphDFS->AddEdge(4, 5);
+        graphDFS->AddEdge(5, 9);
+        graphDFS->AddEdge(9, 9);
+        graphDFS->AddEdge(6, 8);
+        graphDFS->AddEdge(8, 6);
+        graphDFS->AddEdge(0, 8);
+        std::cout << "Vertices found using dfs: ";
+        graphDFS->DFS(graphDFS->SelectVertex(0));
     }
 
-    GraphAsMatrix *graph3 = new GraphAsMatrix(10, false);
-    graph3->AddEdge(0, 1);
-    graph3->AddEdge(1, 2);
-    graph3->AddEdge(2, 3);
-    graph3->AddEdge(3, 4);
-    graph3->AddEdge(3, 7);
-    graph3->AddEdge(4, 5);
-    graph3->AddEdge(5, 9);
-    graph3->AddEdge(9, 9);
-    graph3->AddEdge(6, 8);
-    graph3->AddEdge(8, 6);
-    graph3->AddEdge(0, 8);
-    graph3->DFS_Spanning_Tree(graph3->SelectVertex(0));
-    std::cout<<std::endl;
-    graph3->AddEdge(3, 9);
-    graph3->AddEdge(5, 7);
-    graph3->AddEdge(9, 8);
-    graph3->DFS_Spanning_Tree(graph3->SelectVertex(0));
+//---------------------------------------
+//             spojnosc
+//---------------------------------------
+
+    if(0) {
+        GraphAsMatrix *graphS = new GraphAsMatrix(10, IsDirected);
+        graphS->AddEdge(0,1);
+        graphS->AddEdge(1,2);
+        graphS->AddEdge(2,3);
+        graphS->AddEdge(3,4);
+        graphS->AddEdge(3,7);
+        graphS->AddEdge(4,5);
+        graphS->AddEdge(5,9);
+        graphS->AddEdge(9,9);
+        graphS->AddEdge(6,8);
+        graphS->AddEdge(8,6);
+
+        std::cout << "1 graf jest spojny=" << std::boolalpha << graphS->IsConnected()<<std::endl;
+        graphS->AddEdge(0,8);
+        std::cout << "2 graf jest spojny=" << std::boolalpha << graphS->IsConnected()<<std::endl;
+
+
+        if (IsDirected) {
+            graphS->AddEdge(6, 0);
+            graphS->AddEdge(9, 0);
+            std::cout << "3 graf jest spojny=" << std::boolalpha << graphS->IsConnected()<<std::endl;
+            graphS->AddEdge(7, 0);
+            std::cout << "4 graf jest spojny=" << std::boolalpha <<graphS->IsConnected()<<std::endl;
+
+        }
+    }
+
+
+//---------------------------------------
+//             drzewa
+//---------------------------------------
+
+
+    if(1 && !IsDirected) {
+        GraphAsMatrix *graph3 = new GraphAsMatrix(10, false);
+        graph3->AddEdge(0, 1);
+        graph3->AddEdge(1, 2);
+        graph3->AddEdge(2, 3);
+        graph3->AddEdge(3, 4);
+        graph3->AddEdge(3, 7);
+        graph3->AddEdge(4, 5);
+        graph3->AddEdge(5, 9);
+        graph3->AddEdge(9, 9);
+        graph3->AddEdge(6, 8);
+        graph3->AddEdge(8, 6);
+        graph3->AddEdge(0, 8);
+        graph3->DFS_Spanning_Tree(graph3->SelectVertex(0));
+        std::cout<<std::endl;
+        graph3->AddEdge(3, 9);
+        graph3->AddEdge(5, 7);
+        graph3->AddEdge(9, 8);
+        graph3->DFS_Spanning_Tree(graph3->SelectVertex(0));
+    }
+
 }
 
-int main()
-{
+int main() {
     test(true);
     test(false);
+
 }
