@@ -161,6 +161,7 @@ void test(bool IsDirected) {
             graph1->AddEdge(6, 8);
             graph1->AddEdge(8, 6);
             graph1->AddEdge(0, 8);
+            std::cout << "Vertices found using dfs: ";
             graph1->DFS(graph1->SelectVertex(0));
     }
 

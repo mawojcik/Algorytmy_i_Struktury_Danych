@@ -196,15 +196,14 @@ public:
             }
             ++iter;
         }
-        std::cout << "Number of vertices counted: " << visitor.GetNumber() << std::endl;
+        std::cout << "\nNumber of vertices counted: " << visitor.GetNumber() << std::endl;
     }
 
     void DFS_visitor(CountingVisitor *visitor, Vertex *v, std::vector<bool> &visited)
     {
         visitor->Visit(*v);
         visited[v->Number()] = true;
-        std::cout << v->Number() << std::endl;
-//        std::cout << visited[v->Number()] << std::endl;
+//        std::cout << v->Number() << " ";
         EmanEdgesIter emanIter(*this, v->Number());
         while (!emanIter.IsDone())
         {

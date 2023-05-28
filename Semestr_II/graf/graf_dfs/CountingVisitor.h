@@ -18,6 +18,7 @@ public:
 void CountingVisitor::Visit(Vertex &element)
 {
     number++;
+    std::cout << element.Number() << " ";
 }
 
 int CountingVisitor::GetNumber(){
