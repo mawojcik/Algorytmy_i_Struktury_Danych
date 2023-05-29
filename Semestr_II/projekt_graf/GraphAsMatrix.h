@@ -30,13 +30,15 @@ public:
     void printLabyrinth() {
         int number = 1;
         int counter = 1;
-        int currentColumn = 0;
-
         for (int i = 0; i < numberOfColumns; i ++) {
             for (int j = 0; j < numberOfRows; j++) {
                 std::cout <<" " << number << " ";
                 if (j < numberOfRows - 1) {
-                    std::cout << " | ";
+                    if(IsEdge(j + counter, j + counter+1)) {
+                        std::cout << " | ";
+                    } else {
+                        std::cout << "   ";
+                    }
                 }
                 number++;
             }
