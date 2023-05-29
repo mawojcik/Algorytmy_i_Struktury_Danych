@@ -16,10 +16,10 @@ class GraphAsMatrix
 public:
     GraphAsMatrix(int r, int c)
     {
-        numberOfVertices = r * c;
+        numberOfVertices = r * c+1;
         numberOfRows = r;
         numberOfColumns = c;
-        for (int i = 0; i < numberOfVertices; i++)
+        for (int i = 1; i <= numberOfVertices; i++)
         {
             Vertex *v = new Vertex(i);
             vertices.push_back(v);
@@ -53,7 +53,7 @@ public:
             std::cout << std::endl;
         }
     }
-    
+
 
     class AllVerticesIter : public Iterator<Vertex>
     {
