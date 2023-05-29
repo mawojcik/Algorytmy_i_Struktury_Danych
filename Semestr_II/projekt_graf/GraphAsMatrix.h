@@ -10,7 +10,50 @@ class GraphAsMatrix
     std::vector<Vertex *> vertices;
     std::vector<std::vector<Edge *> > adjacencyMatrix;
     int numberOfVertices;
+    int numberOfRows;
+    int numberOfColumns;
     int numberOfEdges = 0;
+public:
+    GraphAsMatrix(int r, int c)
+    {
+        numberOfVertices = r * c;
+        numberOfRows = r;
+        numberOfColumns = c;
+        for (int i = 0; i < numberOfVertices; i++)
+        {
+            Vertex *v = new Vertex(i);
+            vertices.push_back(v);
+        }
+        createAdjacencyMatrix(numberOfVertices);
+    }
+
+    void printLabyrinth() {
+        int number = 1;
+        int counter = 1;
+        int currentColumn = 0;
+
+        for (int i = 0; i < numberOfColumns; i ++) {
+            for (int j = 0; j < numberOfRows; j++) {
+                std::cout <<" " << number << " ";
+                if (j < numberOfRows - 1) {
+                    std::cout << " | ";
+                }
+                number++;
+            }
+
+            std::cout << std::endl;
+            for (int k = 0; k < numberOfColumns; k++) {
+                if (IsEdge(counter + k, counter + k + numberOfColumns)) {
+                    std::cout << "  _  ";
+                } else {
+                    std::cout << "     ";
+                }
+            }
+            counter += 3;
+            std::cout << std::endl;
+        }
+    }
+    
 
     class AllVerticesIter : public Iterator<Vertex>
     {
@@ -18,13 +61,7 @@ class GraphAsMatrix
         int current;
 
     public:
-        void printLabyrinth() {
 
-        }
-
-        void createLabyrinth() {
-
-        }
 
         AllVerticesIter(GraphAsMatrix &owner) : owner(owner)
         {
@@ -244,16 +281,6 @@ public:
         {
             adjacencyMatrix.push_back(column);
         }
-    }
-    GraphAsMatrix(int n)
-    {
-        numberOfVertices = n;
-        for (int i = 0; i < n; i++)
-        {
-            Vertex *v = new Vertex(i);
-            vertices.push_back(v);
-        }
-        createAdjacencyMatrix(n);
     }
 
     int NumberOfVertices()

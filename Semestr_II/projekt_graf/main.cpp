@@ -6,5 +6,14 @@
 
 
 int main() {
-
+    int numberOfRows = 3;
+    int numberOfColumns = 3;
+    GraphAsMatrix graph(numberOfRows, numberOfColumns);
+    graph.AddEdge(1, 4);
+    graph.AddEdge(2, 5);
+//    graph.AddEdge(3, 6);
+    graph.AddEdge(5, 8);
+    graph.AddEdge(4, 7);
+    graph.AddEdge(6, 9);
+    graph.printLabyrinth();
 }
