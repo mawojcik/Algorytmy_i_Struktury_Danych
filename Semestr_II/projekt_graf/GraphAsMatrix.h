@@ -9,7 +9,6 @@ class GraphAsMatrix
 {
     std::vector<Vertex *> vertices;
     std::vector<std::vector<Edge *> > adjacencyMatrix;
-    bool isDirected;
     int numberOfVertices;
     int numberOfEdges = 0;
 
@@ -188,31 +187,11 @@ class GraphAsMatrix
 public:
     bool IsConnected()
     {
-        if (!IsDirected())
-        {
             Vertex *v = vertices[0];
             CountingVisitor visitor;
             std::vector<bool> visited(vertices.size(), false);
             DFS_visitor(&visitor, v, visited);
             return (visitor.GetNumber() == vertices.size());
-        }
-        if (IsDirected())
-        {
-            Vertex *v;
-            int min = vertices.size();
-            for (int i = 0; i < vertices.size(); i++)
-            {
-                v = vertices[i];
-                CountingVisitor visitor;
-                std::vector<bool> visited(vertices.size(), false);
-                DFS_visitor(&visitor, v, visited);
-                if (visitor.GetNumber() < min)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 
     void DFS(Vertex *v)
@@ -266,9 +245,8 @@ public:
             adjacencyMatrix.push_back(column);
         }
     }
-    GraphAsMatrix(int n, bool b)
+    GraphAsMatrix(int n)
     {
-        isDirected = b;
         numberOfVertices = n;
         for (int i = 0; i < n; i++)
         {
@@ -281,11 +259,6 @@ public:
     int NumberOfVertices()
     {
         return numberOfVertices;
-    }
-
-    bool IsDirected()
-    {
-        return isDirected;
     }
 
     int NumberOfEdges()
@@ -323,10 +296,7 @@ public:
             Edge *edge = new Edge(vertices[u], vertices[v]);
             adjacencyMatrix[u][v] = edge;
             numberOfEdges++;
-            if (!isDirected)
-            {
-                adjacencyMatrix[v][u] = edge;
-            }
+            adjacencyMatrix[v][u] = edge;
         }
     }
 
