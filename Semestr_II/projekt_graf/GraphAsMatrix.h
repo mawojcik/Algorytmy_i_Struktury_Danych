@@ -28,6 +28,9 @@ public:
     }
 
     void printLabyrinth() {
+        for(int i = 0; i < 10; i++) {
+            std::cout << randomNumber(1, 4);
+        }
         int number = 1;
         int counter = 1;
         for (int i = 0; i < numberOfRows; i ++) {
@@ -59,7 +62,9 @@ public:
             std::cout << std::endl;
         }
     }
-
+    int randomNumber(int from, int to) {
+        return from + (rand() % (to - from + 1));
+    }
     void chooseRandomEdges() {
         //choose random vertex, then choose random edge coming out of this vertex
         // do this untill grap is not connected
