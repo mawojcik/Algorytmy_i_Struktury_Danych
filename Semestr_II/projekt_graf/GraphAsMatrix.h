@@ -60,6 +60,11 @@ public:
         }
     }
 
+    void chooseRandomEdges() {
+        //choose random vertex, then choose random edge coming out of this vertex
+        // do this untill grap is not connected
+    }
+
 
     class AllVerticesIter : public Iterator<Vertex>
     {
