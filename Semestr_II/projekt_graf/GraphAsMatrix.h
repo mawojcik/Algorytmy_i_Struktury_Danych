@@ -30,10 +30,14 @@ public:
     void printLabyrinth() {
         int number = 1;
         int counter = 1;
-        for (int i = 0; i < numberOfColumns; i ++) {
-            for (int j = 0; j < numberOfRows; j++) {
-                std::cout <<" " << number << " ";
-                if (j < numberOfRows - 1) {
+        for (int i = 0; i < numberOfRows; i ++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                if (number < 10) {
+                    std::cout <<"  " << number << "  ";
+                } else {
+                    std::cout << " " << number << "  ";
+                }
+                if (j < numberOfColumns - 1) {
                     if(IsEdge(j + counter, j + counter+1)) {
                         std::cout << " | ";
                     } else {
@@ -46,12 +50,12 @@ public:
             std::cout << std::endl;
             for (int k = 0; k < numberOfColumns; k++) {
                 if (IsEdge(counter + k, counter + k + numberOfColumns)) {
-                    std::cout << "  _  ";
+                    std::cout << " -----";
                 } else {
-                    std::cout << "     ";
+                    std::cout << "      ";
                 }
             }
-            counter += 3;
+            counter += numberOfColumns;
             std::cout << std::endl;
         }
     }
@@ -320,7 +324,7 @@ public:
 
     void AddEdge(int u, int v)
     {
-        if (!IsEdge(u, v))
+        if (!IsEdge(u, v) && ((u == (v - numberOfColumns)) || u == v-1))
         {
             Edge *edge = new Edge(vertices[u], vertices[v]);
             adjacencyMatrix[u][v] = edge;
