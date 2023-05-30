@@ -19,7 +19,7 @@ public:
         numberOfVertices = r * c+1;
         numberOfRows = r;
         numberOfColumns = c;
-        for (int i = 1; i <= numberOfVertices; i++)
+        for (int i = 0; i < numberOfVertices; i++)
         {
             Vertex *v = new Vertex(i);
             vertices.push_back(v);
@@ -28,9 +28,6 @@ public:
     }
 
     void printLabyrinth() {
-        for(int i = 0; i < 10; i++) {
-            std::cout << randomNumber(1, 4);
-        }
         int number = 1;
         int counter = 1;
         for (int i = 0; i < numberOfRows; i ++) {
@@ -53,9 +50,9 @@ public:
             std::cout << std::endl;
             for (int k = 0; k < numberOfColumns; k++) {
                 if (IsEdge(counter + k, counter + k + numberOfColumns)) {
-                    std::cout << " -----";
+                    std::cout << " ------";
                 } else {
-                    std::cout << "      ";
+                    std::cout << "       ";
                 }
             }
             counter += numberOfColumns;
@@ -63,9 +60,28 @@ public:
         }
     }
     int randomNumber(int from, int to) {
+        srand((unsigned) time(nullptr));
         return from + (rand() % (to - from + 1));
     }
     void chooseRandomEdges() {
+        std::vector<bool> visited(vertices.size(), false);
+//        while(!IsConnected()) {
+            int randomVertex = randomNumber(1, numberOfVertices-1);
+            Vertex *v = this->SelectVertex(randomVertex);
+            std::cout << "vertex: " << randomVertex << std::endl;
+            int randomEdge = randomNumber(1, 4);
+            std::cout << "edge: " << randomEdge << std::endl;
+            if (randomEdge == 1) {
+                AddEdge(randomVertex, randomVertex - numberOfColumns);
+            } else if (randomEdge == 2) {
+                AddEdge(randomVertex, randomVertex - 1);
+            } else if (randomEdge == 3) {
+                AddEdge(randomVertex, randomVertex + 1);
+            } else {
+                AddEdge(randomVertex, randomVertex + numberOfColumns);
+            }
+//        }
+
         //choose random vertex, then choose random edge coming out of this vertex
         // do this untill grap is not connected
     }
@@ -246,7 +262,6 @@ public:
             DFS_visitor(&visitor, v, visited);
             return (visitor.GetNumber() == vertices.size());
     }
-
     void DFS(Vertex *v)
     {
         CountingVisitor visitor;
@@ -282,9 +297,12 @@ public:
             {
                 Edge vEdge = *emanIter;
                 Vertex *u = vEdge.Mate(v);
+//                if (u->Number() == prevoiusVertexNumber)
                 if (visited[u->Number()] == false)
                 {
                     DFS_visitor(visitor, u, visited);
+                } else if(u->Number() == 2 ) {
+                    std::cout << "cykl!!!!!";
                 }
             }
         }
@@ -334,7 +352,7 @@ public:
 
     void AddEdge(int u, int v)
     {
-        if (!IsEdge(u, v) && ((u == (v - numberOfColumns)) || u == v-1))
+        if (!IsEdge(u, v) && ((u == (v - numberOfColumns)) || v == (u - numberOfColumns) ||  u == v-1 || v==u-1) && ((u > 0 && v > 0) && (u < numberOfVertices && v < numberOfVertices)))
         {
             Edge *edge = new Edge(vertices[u], vertices[v]);
             adjacencyMatrix[u][v] = edge;
