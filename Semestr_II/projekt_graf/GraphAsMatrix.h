@@ -27,6 +27,27 @@ public:
         createAdjacencyMatrix(numberOfVertices);
     }
 
+    GraphAsMatrix CopyGraph(GraphAsMatrix& graph)
+    {
+        numberOfRows = graph.numberOfRows;
+        numberOfColumns = graph.numberOfColumns;
+
+        GraphAsMatrix newGraph(numberOfRows, numberOfColumns);
+
+        for (int i = 0; i < graph.vertices.size(); i++)
+        {
+            for (int j = 0; j < graph.vertices.size(); j++)
+            {
+                if (graph.IsEdge(i, j))
+                    newGraph.AddEdge(i, j);
+            }
+        }
+
+
+        return newGraph;
+    }
+
+
     void printLabyrinth() {
         int number = 1;
         int counter = 1;
@@ -63,27 +84,45 @@ public:
         srand((unsigned) time(nullptr));
         return from + (rand() % (to - from + 1));
     }
+
     void chooseRandomEdges() {
         std::vector<bool> visited(vertices.size(), false);
 //        while(!IsConnected()) {
-            int randomVertex = randomNumber(1, numberOfVertices-1);
-            Vertex *v = this->SelectVertex(randomVertex);
-            std::cout << "vertex: " << randomVertex << std::endl;
-            int randomEdge = randomNumber(1, 4);
-            std::cout << "edge: " << randomEdge << std::endl;
-            if (randomEdge == 1) {
-                AddEdge(randomVertex, randomVertex - numberOfColumns);
-            } else if (randomEdge == 2) {
-                AddEdge(randomVertex, randomVertex - 1);
-            } else if (randomEdge == 3) {
-                AddEdge(randomVertex, randomVertex + 1);
-            } else {
-                AddEdge(randomVertex, randomVertex + numberOfColumns);
-            }
+        int randomVertex = randomNumber(1, numberOfVertices-1);
+        int randomEdge = randomNumber(1, 4);
+//        Vertex *v = this->SelectVertex(randomVertex);
+//        std::cout << "vertex: " << randomVertex << std::endl;
+//        std::cout << "edge: " << randomEdge << std::endl;
+        int mateVertex = 0;
+        if (randomEdge == 1) {
+            mateVertex = randomVertex - numberOfColumns;
+        } else if (randomEdge == 2) {
+            mateVertex = randomVertex - 1;
+        } else if (randomEdge == 3) {
+            mateVertex = randomVertex + 1;
+        } else {
+            mateVertex = randomVertex + numberOfColumns;
+        }
+        GraphAsMatrix tempGraph = CopyGraph(*this);
+        tempGraph.AddEdge(randomVertex, mateVertex);
+//        std::cout<< "edge: " << this->IsEdge(2, 6);
+        tempGraph.printLabyrinth();
+//        AddEdge(randomVertex, mateVertex);
+        // check if we have a cycle
+        // if true delete previous vertex and continue
+        // if false continue
+        //OR
+        //create temporary graph same as current graph, add edge to it
+        //check if we have a cycle
+        //if true: contine and delete temporary graph
+        //if false: AddEdge to final graph, delete temporary grap continue
 //        }
 
         //choose random vertex, then choose random edge coming out of this vertex
         // do this untill grap is not connected
+    }
+    bool IsCyclic() {
+        
     }
 
 
@@ -191,6 +230,7 @@ public:
             row = v;
             col = -1;
             this->owner = owner;
+//            next();
         }
         bool IsDone()
         {
@@ -262,6 +302,7 @@ public:
             DFS_visitor(&visitor, v, visited);
             return (visitor.GetNumber() == vertices.size());
     }
+
     void DFS(Vertex *v)
     {
         CountingVisitor visitor;
@@ -270,7 +311,6 @@ public:
         AllVerticesIter iter(*this);
         while (!iter.IsDone())
         {
-            ++iter;
             Vertex *x = &(*iter);
             if (!iter.IsDone())
             {
@@ -279,31 +319,26 @@ public:
                     DFS_visitor(&visitor, &(*iter), visited);
                 }
             }
+            ++iter;
         }
-        std::cout << "Number of vertices counted: " << visitor.GetNumber() << std::endl;
+        std::cout << "\nNumber of vertices counted: " << visitor.GetNumber() << std::endl;
     }
 
     void DFS_visitor(CountingVisitor *visitor, Vertex *v, std::vector<bool> &visited)
     {
-        int row = v->Number();
-        int last_col = adjacencyMatrix.size() - 1;
         visitor->Visit(*v);
         visited[v->Number()] = true;
-        EmanEdgesIter emanIter(*this, row);
+//        std::cout << v->Number() << " ";
+        EmanEdgesIter emanIter(*this, v->Number());
         while (!emanIter.IsDone())
         {
             ++emanIter;
-            if (!emanIter.IsDone() || (emanIter.IsDone() && adjacencyMatrix[last_col][row] != nullptr))
+            if (!emanIter.IsDone())
             {
                 Edge vEdge = *emanIter;
                 Vertex *u = vEdge.Mate(v);
-//                if (u->Number() == prevoiusVertexNumber)
                 if (visited[u->Number()] == false)
-                {
                     DFS_visitor(visitor, u, visited);
-                } else if(u->Number() == 2 ) {
-                    std::cout << "cykl!!!!!";
-                }
             }
         }
     }
