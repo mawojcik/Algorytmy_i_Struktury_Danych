@@ -106,7 +106,7 @@ public:
         GraphAsMatrix tempGraph = CopyGraph(*this);
         tempGraph.AddEdge(randomVertex, mateVertex);
 //        std::cout<< "edge: " << this->IsEdge(2, 6);
-        tempGraph.printLabyrinth();
+//        tempGraph.printLabyrinth();
 //        AddEdge(randomVertex, mateVertex);
         // check if we have a cycle
         // if true delete previous vertex and continue
@@ -121,8 +121,22 @@ public:
         //choose random vertex, then choose random edge coming out of this vertex
         // do this untill grap is not connected
     }
-    bool IsCyclic() {
-        
+    bool IsCyclic(Vertex *v) {
+        std::vector<int> parent(vertices.size(), -1);
+        std::vector<bool> visited(vertices.size(), false);
+//        for (int i = 0; i < vertices.size(); i++) {
+            CheckingCycle(v, visited, parent);
+//        }
+    }
+
+    bool CheckingCycle(Vertex *v, std::vector<bool> &visited, std::vector<int> &parent) {
+        visited[v->Number()] = true;
+        Iterator<Edge> &emIter = this->EmanatingEdgesIter(v->Number());
+        for (emIter; !emIter.IsDone(); ++emIter)
+        {
+            Edge e = *emIter;
+            std::cout << e.V0()->Number() << " --- " << e.V1()->Number() << std::endl;
+        }
     }
 
 
