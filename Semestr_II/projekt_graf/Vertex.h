@@ -4,8 +4,9 @@
 class Vertex
 {
     int number;
-    
+
 public:
+    int startingVertexNumber;
     int weight;
     std::string label;
     Vertex(int n){
@@ -14,5 +15,8 @@ public:
     int Number() const
     {
         return number;
+    }
+    int StartingVertexNumber() {
+        return startingVertexNumber;
     }
 };

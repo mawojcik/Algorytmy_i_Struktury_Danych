@@ -122,20 +122,25 @@ public:
         // do this untill grap is not connected
     }
     bool IsCyclic(Vertex *v) {
-        std::vector<int> parent(vertices.size(), -1);
         std::vector<bool> visited(vertices.size(), false);
+        int parent = -1;
 //        for (int i = 0; i < vertices.size(); i++) {
             CheckingCycle(v, visited, parent);
 //        }
     }
 
-    bool CheckingCycle(Vertex *v, std::vector<bool> &visited, std::vector<int> &parent) {
+    bool CheckingCycle(Vertex *v, std::vector<bool> &visited, int parent) {
         visited[v->Number()] = true;
         Iterator<Edge> &emIter = this->EmanatingEdgesIter(v->Number());
         for (emIter; !emIter.IsDone(); ++emIter)
         {
             Edge e = *emIter;
-            std::cout << e.V0()->Number() << " --- " << e.V1()->Number() << std::endl;
+//            std::cout << e.V0()->Number() << " --- " << e.V1()->Number() << std::endl;
+            std::cout << e.V0()->Number();
+            if (!visited[e.V0()->Number()]) {
+                parent = v->Number();
+                CheckingCycle(e.V0(), visited, parent);
+            }
         }
     }
 
