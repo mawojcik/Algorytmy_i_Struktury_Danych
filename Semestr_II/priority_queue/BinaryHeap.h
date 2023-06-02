@@ -56,17 +56,13 @@ void BinaryHeap<T>::MakeNull()
 template <typename T>
 bool BinaryHeap<T>::IsEmpty() const
 {
-    {
-        return Count() == 0;
-    }
+    return Count() == 0;
 }
 
 template <typename T>
 bool BinaryHeap<T>::IsFull() const
 {
-    {
-        return Count() == data.max_size();
-    }
+    return Count() == data.max_size();
 }
 
 template <typename T>
@@ -98,7 +94,7 @@ void BinaryHeap<T>::Enqueue(T element)
         int element_index = count - 1;
         T parent = FindParent(element_index);
 
-        while (!(parent < element) && !(element_index == 0))
+        while (parent >= element && element_index != 0)
         {
             // swapping parent with element
             std::swap(data[FindParentIndex(element_index)], data[element_index]);
