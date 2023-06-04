@@ -13,5 +13,5 @@ int main()
         graph.AddEdge(i, num-1);
     }
     std::cout << " ";
-    graph.piggy_banks();
+    std::cout << "Ilosc skarbonek do rozbicia: " << graph.rozbijacz();
 }

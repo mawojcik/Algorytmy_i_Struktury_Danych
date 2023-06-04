@@ -164,7 +164,7 @@ public:
             ++it;
         }
     }
-    int piggy_banks(bool print = true)
+    int rozbijacz()
     {
         int broken = 0;
         std::vector<bool> visited(this->numberOfVertices, false);
@@ -177,7 +177,6 @@ public:
                 broken++;
             }
         }
-        if(print) std::cout << "Broken piggybanks: " << broken << std::endl;
         return broken;
     }
     void convert_to_undirected()
