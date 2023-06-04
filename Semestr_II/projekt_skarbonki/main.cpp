@@ -2,13 +2,13 @@
 
 int main()
 {
-    int n;
+    int numberOfVaults;
     std::cout << "ilosc skarbonek: " << std::endl;
-    std::cin >> n;
-    GraphAsMatrix graph(n, false);
+    std::cin >> numberOfVaults;
+    GraphAsMatrix graph(numberOfVaults, false);
     std::cout << "Rozmieszczenie skarbonek:" << std::endl;
     int num;
-    for(int i = 0; i<n; i++) {
+    for(int i = 0; i < numberOfVaults; i++) {
         std::cin >> num;
         graph.AddEdge(i, num-1);
     }
