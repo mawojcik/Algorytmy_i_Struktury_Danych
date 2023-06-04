@@ -214,7 +214,7 @@ public:
     bool IsEdge(int u, int v)
     {
         bool ifEdgeExists = false;
-        if ((u > numberOfVertices) || (v > numberOfVertices) || (u == v)) {
+        if ((u > numberOfVertices) || (v > numberOfVertices)) {
             return false;
         } else if (adjacencyMatrix[u - 1][v - 1] != NULL) {
             ifEdgeExists = true;
@@ -234,7 +234,7 @@ public:
 
     void AddEdge(int u, int v)
     {
-        if (!IsEdge(u, v) && u != v)
+        if (!IsEdge(u, v))
         {
             Edge *edge = new Edge(vertices[u - 1], vertices[v - 1]);
             adjacencyMatrix[u - 1][v - 1] = edge;
