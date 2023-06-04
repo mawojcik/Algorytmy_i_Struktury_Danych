@@ -58,7 +58,7 @@ class GraphAsMatrix
                     col = 0;
                 }
             }
-            while (owner.adjacencyMatrix[col][row] == NULL && !this->IsDone())
+            while (owner.adjacencyMatrix[col][row] == nullptr && !this->IsDone())
             {
                 col++;
                 if (col >= width)
@@ -105,7 +105,7 @@ class GraphAsMatrix
         void next()
         {
             col++;
-            while (owner.adjacencyMatrix[col][row] == NULL && !this->IsDone())
+            while (owner.adjacencyMatrix[col][row] == nullptr && !this->IsDone())
             {
                 col++;
             }
@@ -145,7 +145,7 @@ class GraphAsMatrix
         void next()
         {
             row++;
-            while (owner.adjacencyMatrix[col][row] == NULL && !this->IsDone())
+            while (owner.adjacencyMatrix[col][row] == nullptr && !this->IsDone())
             {
                 row++;
             }
@@ -203,7 +203,7 @@ public:
             {
                 Edge vEdge = *emanIter;
                 Vertex *u = vEdge.Mate(v);
-                if (visited[u->Number()] == false)
+                if (!visited[u->Number()])
                 {
                     parent[u->Number()] = v->Number();
 //                    std::cout<<parent[u->Number()]<<std::endl;
@@ -255,7 +255,7 @@ public:
             Vertex *x = &(*iter);
             if (!iter.IsDone())
             {
-                if (visited[x->Number()] == false)
+                if (!visited[x->Number()])
                 {
                     DFS_visitor(&visitor, &(*iter), visited);
                 }
@@ -278,7 +278,7 @@ public:
             {
                 Edge vEdge = *emanIter;
                 Vertex *u = vEdge.Mate(v);
-                if (visited[u->Number()] == false)
+                if (!visited[u->Number()])
                 {
                     DFS_visitor(visitor, u, visited);
                 }
@@ -327,7 +327,7 @@ public:
         if (u && v > numberOfVertices)
         {
         }
-        else if (adjacencyMatrix[u][v] != NULL)
+        else if (adjacencyMatrix[u][v] != nullptr)
         {
             ifEdgeExists = true;
         }
@@ -339,7 +339,7 @@ public:
         for (int i = 0; i < numberOfVertices; i++)
         {
             for (int j = 0; j < numberOfVertices; j++)
-                adjacencyMatrix[i][j] = NULL;
+                adjacencyMatrix[i][j] = nullptr;
         }
         numberOfEdges = 0;
     }
