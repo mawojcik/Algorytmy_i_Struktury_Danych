@@ -189,7 +189,7 @@ public:
             Vertex *x = &(*iter);
             if (!iter.IsDone())
             {
-                if (visited[x->Number()] == false)
+                if (!visited[x->Number()])
                 {
                     DFS_visitor(&visitor, &(*iter), visited);
                 }
@@ -212,7 +212,7 @@ public:
             {
                 Edge vEdge = *emanIter;
                 Vertex *u = vEdge.Mate(v);
-                if (visited[u->Number()] == false)
+                if (!visited[u->Number()])
                     DFS_visitor(visitor, u, visited);
             }
         }
