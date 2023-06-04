@@ -3,7 +3,6 @@
 #include "Vertex.h"
 #include "Edge.h"
 #include <iostream>
-//#include "Graph.hpp"
 #include "CountingVisitor.h"
 
 
@@ -168,7 +167,6 @@ public:
     {
         int broken = 0;
         std::vector<bool> visited(this->numberOfVertices, false);
-        if(this->isDirected) convert_to_undirected();
         DFS1(vertices[0], visited);
         broken++;
         for(int i = 0; i<numberOfVertices; i++) {
@@ -178,29 +176,5 @@ public:
             }
         }
         return broken;
-    }
-    void convert_to_undirected()
-    {
-        auto &it = EdgesIter();
-        while(!it.IsDone()) {
-            int a = (*it).V0()->Number();
-            int b = (*it).V1()->Number();
-            this->AddEdge(b, a);
-            ++it;
-        }
-    }
-    void debug()
-    {
-        std::cout << "Adjacency matrix:\n";
-        std::cout << std::string(2*numberOfVertices+3, '-') << std::endl;
-        for(int i = 0; i<numberOfVertices; i++) {
-            for(int j = 0; j<numberOfVertices; j++) {
-                std::cout << (j == 0 ? "| " : "");
-                std::cout << (adjacencyMatrix[i][j] == nullptr ? "0" : "1") << " ";
-                std::cout << (j == numberOfVertices-1 ? "|" : "");
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::string(2*numberOfVertices+3, '-') << std::endl << std::endl;
     }
 };
