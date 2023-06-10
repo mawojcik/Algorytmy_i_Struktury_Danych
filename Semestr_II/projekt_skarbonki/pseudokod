@@ -1,3 +1,4 @@
+
 rozbijacz:
     ilosć_rozbitych_skarbonek = 0
     oznacz wszystkie wierzchołki jako nieodwiedzone
@@ -12,3 +13,5 @@ DFS1(vertex, tablica_odwiedzonych):
     dla każdego wierzchołka v będącego sąsiadem wierzchołka vertex:
         jeśli wierzchołek v nie został wcześniej odwiedzony:
             DFS1(v, tablica_odwiedzonych)
+
+
