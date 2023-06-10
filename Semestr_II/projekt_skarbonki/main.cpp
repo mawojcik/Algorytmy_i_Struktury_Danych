@@ -7,11 +7,10 @@ int main()
     std::cin >> numberOfVaults;
     GraphAsMatrix graph(numberOfVaults, false);
     std::cout << "Rozmieszczenie skarbonek:" << std::endl;
-    int num;
+    int vaultNumber;
     for(int i = 0; i < numberOfVaults; i++) {
-        std::cin >> num;
-        graph.AddEdge(i, num-1);
+        std::cin >> vaultNumber;
+        graph.AddEdge(i, vaultNumber-1);
     }
-    std::cout << " ";
     std::cout << "Ilosc skarbonek do rozbicia: " << graph.rozbijacz();
 }
