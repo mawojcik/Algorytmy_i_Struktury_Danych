@@ -135,19 +135,7 @@ public:
             adjacencyMatrix[v][u] = new Edge(vertices[v], vertices[u]);
         }
     }
-    void AddEdge(Edge* edge)
-    {
-        int u = edge->V0()->Number();
-        int v = edge->V1()->Number();
-        if(!adjacencyMatrix[u][v]) {
-            adjacencyMatrix[u][v] = new Edge(vertices[u], vertices[v]);
-            numberOfEdges++;
-        }
-        if(!isDirected && !adjacencyMatrix[v][u]) {
-            adjacencyMatrix[v][u] = new Edge(vertices[v], vertices[u]);
-        }
 
-    }
     Edge* SelectEdge (int u, int v) { return adjacencyMatrix[u][v]; }
     Vertex* SelectVertex(int v) { return vertices[v]; }
 
