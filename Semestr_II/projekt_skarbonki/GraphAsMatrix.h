@@ -3,11 +3,18 @@
 #include "Vertex.h"
 #include "Edge.h"
 #include <iostream>
-#include "CountingVisitor.h"
-
 
 class GraphAsMatrix
 {
+public:
+    GraphAsMatrix(int n, bool directed): numberOfVertices(n), isDirected(directed)
+    {
+        for(int i = 0; i<n; i++) {
+            vertices.push_back(new Vertex(i));
+            adjacencyMatrix.push_back(std::vector<Edge*>(n, nullptr));
+        }
+    }
+
 private:
     std::vector<Vertex*> vertices;
     std::vector<std::vector<Edge*> > adjacencyMatrix;
@@ -105,13 +112,6 @@ private:
     };
 
 public:
-    GraphAsMatrix(int n, bool directed): numberOfVertices(n), isDirected(directed)
-    {
-        for(int i = 0; i<n; i++) {
-            vertices.push_back(new Vertex(i));
-            adjacencyMatrix.push_back(std::vector<Edge*>(n, nullptr));
-        }
-    }
     bool IsDirected() { return isDirected; }
     int NumberOfVertices() { return numberOfVertices; }
     int NumberOfEdges() { return numberOfEdges; }
@@ -144,25 +144,6 @@ public:
     Iterator<Edge>& EmanatingEdgesIter(int u) { return *(new EmanEdgesIter(*this, u)); }
     Iterator<Edge>& IncidentEdgesIter(int v) { return *(new InciEdgesIter(*this, v)); }
 
-    void DFS(Vertex *v)
-    {
-        CountingVisitor counter;
-        std::vector<bool> visited(this->numberOfVertices, false);
-        DFS1(v, visited);
-        for(int i = 0; i<numberOfVertices; i++) {
-            if(!visited[i]) DFS1(vertices[i], visited);
-        }
-    }
-    void DFS1(Vertex *v, std::vector<bool> &visited)
-    {
-        visited[v->Number()] = true;
-        auto &it = EmanatingEdgesIter(v->Number());
-        while(!it.IsDone()) {
-            if(!visited[(*it).V1()->Number()])
-                DFS1((*it).V1(), visited);
-            ++it;
-        }
-    }
     int rozbijacz()
     {
         int broken = 0;
@@ -174,5 +155,16 @@ public:
             }
         }
         return broken;
+    }
+
+    void DFS1(Vertex *v, std::vector<bool> &visited)
+    {
+        visited[v->Number()] = true;
+        auto &it = EmanatingEdgesIter(v->Number());
+        while(!it.IsDone()) {
+            if(!visited[(*it).V1()->Number()])
+                DFS1((*it).V1(), visited);
+            ++it;
+        }
     }
 };
