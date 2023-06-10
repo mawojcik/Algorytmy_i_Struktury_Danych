@@ -10,7 +10,7 @@ class GraphAsMatrix
 {
 private:
     std::vector<Vertex*> vertices;
-    std::vector<std::vector<Edge*>> adjacencyMatrix;
+    std::vector<std::vector<Edge*> > adjacencyMatrix;
     bool isDirected;
     int numberOfVertices = 9;
     int numberOfEdges = 0;
@@ -19,7 +19,7 @@ private:
     {
     private:
         GraphAsMatrix& owner;
-        int current{0};
+        int current = 0;
     public:
         AllVerticesIter(GraphAsMatrix& owner): owner(owner) {};
         bool IsDone() const { return current >= owner.numberOfVertices; }
@@ -44,7 +44,11 @@ private:
             }
             end = true;
         }
-        AllEdgesIter(GraphAsMatrix& owner): owner(owner), row{0}, col{0} { next(); }
+        AllEdgesIter(GraphAsMatrix& owner): owner(owner) {
+            row = 0;
+            col = 0;
+        next();
+        }
         bool IsDone() const { return end; }
         Edge& operator*() { return *owner.SelectEdge(row,col); }
         void operator++(){ next(); }
@@ -65,7 +69,11 @@ private:
             }
             end = true;
         }
-        EmanEdgesIter(GraphAsMatrix& owner, int u): owner(owner), row{u}, col{-1} { next(); }
+        EmanEdgesIter(GraphAsMatrix& owner, int u): owner(owner) {
+            row = u;
+            col = -1;
+            next();
+        }
         bool IsDone() const { return end; }
         Edge& operator*() { return *owner.SelectEdge(row,col); }
         void operator++() { next(); }
@@ -86,7 +94,11 @@ private:
             }
             end = true;
         }
-        InciEdgesIter(GraphAsMatrix& owner, int v): owner(owner), row{-1}, col{v} { next(); }
+        InciEdgesIter(GraphAsMatrix& owner, int v): owner(owner) {
+            row = -1;
+            col = v;
+            next();
+        }
         bool IsDone() const { return end; }
         Edge& operator*() { return *owner.SelectEdge(row,col); }
         void operator++(){ next(); }
@@ -167,8 +179,6 @@ public:
     {
         int broken = 0;
         std::vector<bool> visited(this->numberOfVertices, false);
-        DFS1(vertices[0], visited);
-        broken++;
         for(int i = 0; i<numberOfVertices; i++) {
             if(!visited[i]) {
                 DFS1(vertices[i], visited);
