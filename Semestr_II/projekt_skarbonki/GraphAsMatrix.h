@@ -7,19 +7,20 @@
 class GraphAsMatrix
 {
 public:
-    GraphAsMatrix(int n, bool directed): numberOfVertices(n), isDirected(directed)
+    GraphAsMatrix(int n, bool directed)
     {
+        numberOfVertices = n;
+        isDirected = directed;
         for(int i = 0; i<n; i++) {
             vertices.push_back(new Vertex(i));
             adjacencyMatrix.push_back(std::vector<Edge*>(n, nullptr));
         }
     }
-
 private:
     std::vector<Vertex*> vertices;
     std::vector<std::vector<Edge*> > adjacencyMatrix;
     bool isDirected;
-    int numberOfVertices = 9;
+    int numberOfVertices;
     int numberOfEdges = 0;
 
     class AllVerticesIter: public Iterator<Vertex>
